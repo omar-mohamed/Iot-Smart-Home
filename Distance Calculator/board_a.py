@@ -1,5 +1,5 @@
-import socket,threading,json,time,math,mraa
-
+import socket,threading,json,time,mraa
+from math import sin, cos, sqrt, atan2, radians
 BUFFER_SIZE = 1024
 phone_location = {}
 other_board_location = {}
@@ -7,11 +7,19 @@ other_board_location = {}
 #######################################################################
 
 def calculate_distance():
-   x1 = phone_location['long']
-   x2 = other_board_location['long']
-   y1 = phone_location['lat']
-   y2 = other_board_location['lat']
-   return math.sqrt((x2-x1)**2+(y2-y1)**2)
+   
+   R = 6373.0  # approximate radius of earth in km
+   lon1  = radians(phone_location['long'])
+   lon2  = radians(other_board_location['long'])
+   lat1  = radians(phone_location['lat'])
+   lat2  = radians(other_board_location['lat'])
+   dlon = lon2 - lon1
+   dlat = lat2 - lat1
+   a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
+   c = 2 * atan2(sqrt(a), sqrt(1 - a))
+   distance = (R * c)*1000
+   print("distance is: ", distance,"M");
+   return distance
 
 #######################################################################
 

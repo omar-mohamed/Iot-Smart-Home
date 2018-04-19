@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
 
         }
-        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, locationListener);
+        lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 2, locationListener);
 
         ipEditText=(EditText)findViewById(R.id.ip_edit_text);
         portEditText=(EditText)findViewById(R.id.port_edit_text);
@@ -85,8 +85,9 @@ public class MainActivity extends AppCompatActivity {
            double latitude = location.getLatitude();
             JSONObject obj = new JSONObject();
             try {
-                obj.put("longitude", longitude);
-                obj.put("latitude", latitude);
+                obj.put("long", longitude);
+                obj.put("lat", latitude);
+                obj.put("source", "phone");
             } catch (JSONException e) {
                 e.printStackTrace();
                 return;
