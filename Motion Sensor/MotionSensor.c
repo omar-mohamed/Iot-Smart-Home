@@ -22,7 +22,7 @@ const char* return_string()
 		val = mraa_aio_read(abc);
 		printf("Pin A%d received %hu ", ANALOG, val);
 
-		if (val < THRESHOLD)
+		if (val > THRESHOLD)
 		{
 				printf("GPIO1 1\n");
 				return "1";
