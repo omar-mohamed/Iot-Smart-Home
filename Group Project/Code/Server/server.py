@@ -1,13 +1,13 @@
 import socket,threading,json,time,webbrowser
 from math import radians,sin,cos,atan2,sqrt
-from gmplot import gmplot
+import MapMaker
 import sqliteDB
 
 BUFFER_SIZE = 1024
 DB_NAME = "Board_Location.db"
 TOTAL_BOARDS = 3
-TOTAL_PHONES = 2
-ITERATIONS = 60/10
+PHONE_BOARDS = 2
+ITERATIONS = 1000/10
 HOME_LOCATION = ()
 START = False
 CLOSE = False
@@ -48,21 +48,25 @@ class ClientThread(threading.Thread):
             data = json.loads(data)
             print ('Message from ',self.ip,' ----- ',data)
             if data['source'] == 'temp' or data['source'] == 'light' or data['source'] == 'sound' or data['source'] == 'motion' or data['source'] == 'smoke':
-               while not START:
-                  time.sleep(1)
-               print(data)
-               time.sleep(2)
-               if CLOSE or i == ITERATIONS-1:
-                  self.connection.send('close')
-                  break
+               if not START:
+                  while not START:
+                     time.sleep(1)
+                  self.connection.send('start')
+                  #print(data)
                else:
-                  self.connection.send('continue')
+                  time.sleep(2)
+                  if CLOSE or i == ITERATIONS-1:
+                     self.connection.send('close')
+                     break
+                  else:
+                     self.connection.send('continue')
             else: # source = phone
                my_id = int(data['source'].split('_')[1])
                if my_id == 0: # home location
+                  print(data)
                   global HOME_LOCATION
                   HOME_LOCATION = (data['lat'],data['long'])
-                  MapMaker.initialize_map(HOME_LOCATION[0],HOME_LOCATION[1],15,colordict[0],PHONE_BOARDS)
+                  MapMaker.initialize_map(HOME_LOCATION[0],HOME_LOCATION[1],20,color_dict[0],PHONE_BOARDS)
                   webbrowser.open("map.html")
                   break
                else:
@@ -71,13 +75,13 @@ class ClientThread(threading.Thread):
                   distance = calculate_distance((data['lat'],data['long']),HOME_LOCATION)
                   print('Distance from ',data['source'],'to home = ',distance)
                   self.connection.send(json.dumps({'distance':distance}))
-                  if distance <= 5.0 and not START: # Turn on devices
+                  if distance <= 10.0 and not START: # Turn on devices
                      START = True
                      print("Start devices -----")
-                  if distance >= 5.0 and START: # Turn off devides
+                  if distance >= 10.0 and START: # Turn off devides
                      CLOSE = True
                      print("Close devices -----")
-                  time.sleep(5)
+                  time.sleep(2)
          except:
             print("JSON ERROR!")
             self.connection.send('error')
@@ -90,8 +94,8 @@ class ClientThread(threading.Thread):
 sqliteDB.createDatabase(DB_NAME)
 
 my_server = socket.socket()         
-my_server_ip = ""
-my_server_port = 5001
+my_server_ip = "192.168.1.102"
+my_server_port = 5009
 
 my_server.bind((my_server_ip,my_server_port))        
 my_server.listen(9)  # wait for client connection
