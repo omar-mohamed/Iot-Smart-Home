@@ -19,8 +19,8 @@ if data == 'start':
 		print jsonData
 		s.send(json.dumps(jsonData))
 		data = s.recv(buffer_size)
-        print data
-        if  data == 'close':
-            break
+		print data
+		if  data == 'close':
+			break
 			
 s.close()
