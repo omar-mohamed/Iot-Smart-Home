@@ -1,8 +1,8 @@
 import socket,subprocess,time,json
 
 buffer_size = 1024
-server_ip = ""    
-port = 5001             
+server_ip = "192.168.43.68"    
+port = 5010             
 iterations = 5
 
 s = socket.socket() 
@@ -25,7 +25,6 @@ if data == 'start':
         print data
         if  data == 'close':
             break
-        i += 1
     fire_alarm_process.kill()   
     data_file.close()
 
