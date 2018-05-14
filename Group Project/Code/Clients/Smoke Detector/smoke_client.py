@@ -1,8 +1,8 @@
 import socket,subprocess,time,json
 
 buffer_size = 1024
-server_ip = "192.168.43.68"    
-port = 5010             
+server_ip = raw_input("Server's IP: ") #"192.168.43.68"    
+port = int(raw_input("Port: ")) #5010             
 iterations = 5
 
 s = socket.socket() 

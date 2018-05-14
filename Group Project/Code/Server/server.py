@@ -5,7 +5,7 @@ import sqliteDB
 
 BUFFER_SIZE = 1024
 DB_NAME = "Board_Location.db"
-TOTAL_BOARDS = 3
+TOTAL_BOARDS = 2
 PHONE_BOARDS = 2
 ITERATIONS = 1000/10
 HOME_LOCATION = ()
@@ -77,10 +77,18 @@ class ClientThread(threading.Thread):
                   self.connection.send(json.dumps({'distance':distance}))
                   if distance <= 10.0 and not START: # Turn on devices
                      START = True
+                     print("***********************************************************************")
+                     print("***********************************************************************")
                      print("Start devices -----")
-                  if distance >= 10.0 and START: # Turn off devides
+                     print("***********************************************************************")
+                     print("***********************************************************************")
+                  if distance >= 10.0 and START and not CLOSE: # Turn off devides
                      CLOSE = True
+                     print("***********************************************************************")
+                     print("***********************************************************************")
                      print("Close devices -----")
+                     print("***********************************************************************")
+                     print("***********************************************************************")
                   time.sleep(2)
          except:
             print("JSON ERROR!")
@@ -94,8 +102,8 @@ class ClientThread(threading.Thread):
 sqliteDB.createDatabase(DB_NAME)
 
 my_server = socket.socket()         
-my_server_ip = "192.168.1.102"
-my_server_port = 5009
+my_server_ip = raw_input("IP: ") #"192.168.1.102"
+my_server_port = int(raw_input("Port: ")) #5002
 
 my_server.bind((my_server_ip,my_server_port))        
 my_server.listen(9)  # wait for client connection

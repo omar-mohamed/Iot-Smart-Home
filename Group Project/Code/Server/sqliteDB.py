@@ -89,7 +89,7 @@ def getMostRecentData(databaseName):
      connection = sqlite3.connect(databaseName)
      print(connection)
      cursor = connection.cursor()
-     cursor.execute("SELECT * FROM Location ORDER BY Board_ID ASC, Time DESC")
+     cursor.execute("SELECT * FROM Location ORDER BY Board_ID ASC, Date DESC, Time DESC")
      data = []
      result = cursor.fetchall()
      if result == None:
