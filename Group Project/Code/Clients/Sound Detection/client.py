@@ -9,6 +9,7 @@ lib.get_sensor_reading.restype = c_char_p
 s = socket.socket()         # Create a socket object
 host = "192.168.1.100"    # the ip address of the machine that you run the serve
 port = 5008               # Reserve a port for your service.
+buffer_size = 1024
 ROOM_NO = 1
 
 s.connect((host, port))
