@@ -58,9 +58,9 @@ def initialize_map(center_lat,center_long,zoom,color,num_markers):
     
     i = first_part.index('img')
     first_part = first_part[0:i] + "img = new google.maps.MarkerImage(\"" + img + color_dict[0]+".png\""+ first_part[first_part.index(')',i):]
-
+    print("test")
     first_part += """var latlng;
-		$.getJSON("http://localhost:5000/get_loc" , function(locations) 
+		$.getJSON("http://193.227.14.15:2017/recent_locations" , function(locations) 
 		{
 			for (j = 0; j < locations.length; j++){
 				//console.log(j)
@@ -80,4 +80,4 @@ def initialize_map(center_lat,center_long,zoom,color,num_markers):
     #webbrowser.open(MAP_NAME) #
 
     
-#initialize_map(30.0312506,31.21046320000005,15,'red',2)
+initialize_map(30.0312506,31.21046320000005,15,'red',2)
