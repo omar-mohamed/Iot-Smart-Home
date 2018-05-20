@@ -13,7 +13,7 @@ buffer_size = 1024
 
 s.connect((server_ip, server_port))
 lightSensorData = {"source":"light","room_no":ROOM_NO,"light":0}
-s.send(json.dumps(my_data))
+s.send(json.dumps(lightSensorData))
 receivedData = s.recv(buffer_size)
 
 if receivedData == 'start':
